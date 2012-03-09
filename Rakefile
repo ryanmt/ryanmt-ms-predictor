@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "ryanmt-ms-predictor"
   gem.homepage = "http://github.com/ryanmt/ryanmt-ms-predictor"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{My in-silico analysis toolkit for generating theoretical data representative of a set of proteins as contained in a fasta file.}
+  gem.description = %Q{This gem provides in-silico generation of data files representative of a theoretical analysis of proteins as provided in a source fasta file.  This is essentially the toolkit required to do comparative studies between real data and database entries in identifying peptides from mass spectra ie MASCOT, SEQUEST, OMSSA, ... }
   gem.email = "ryanmt@byu.net"
   gem.authors = ["Ryan Taylor"]
   # dependencies defined in Gemfile
@@ -32,13 +32,6 @@ Rake::TestTask.new(:test) do |test|
   test.verbose = true
 end
 
-require 'rcov/rcovtask'
-Rcov::RcovTask.new do |test|
-  test.libs << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-  test.rcov_opts << '--exclude "gems/*"'
-end
 
 task :default => :test
 
