@@ -43,8 +43,18 @@ module Ryan
                 opts.on('-c', '--concatenate', "Generates a concatenated decoy+real database instead of a separate, decoy only database.") do |c|
                   options[:concatenate] = c
                 end
+                opts.on_tail('-h', '--help', 'Show this message') do 
+                  puts opts
+                  exit
+                end
               end
               parser.parse!(argv)
+              if ARGV.size == 0
+                puts parser.banner
+                puts parser.summarize
+                exit
+              end
+
               outf = Ryan::MS::Search::Decoy.new(options).generate(argv.first)
               [options, outf]
             end
