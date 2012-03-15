@@ -1,9 +1,5 @@
-require 'ms/fasta'
-require 'ms/mzml'
-require_relative "digestor"
-require_relative "fragmenter"
-require_relative "isotoper"
-require 'fileutils'
+require 'bundler/setup'
+Bundler.require(:default)
 start_time = Time.now.to_i
 module Ryan
   module MS
