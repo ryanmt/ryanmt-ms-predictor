@@ -1,4 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '../../../spec_helper')
+BSA_REV_MATCH = Regexp.new("ALATQTSVVLKPGEVAFCAEKDDAACCKDVFAV")
+BSA_FWD_MATCH = Regexp.new("ALATQTSVVLKPGEVAFCAEKDDAACCKDVFAV".reverse)
 TEST_FASTAS = ['bsa.fasta', 'human_xueyuan.fasta']
 describe Ryan::MS::Search::Decoy do 
   before :each do 
@@ -44,4 +46,26 @@ describe Ryan::MS::Search::Decoy do
     @file_out = arr.shift
     arr.each {|a| FileUtils.rm a }
   end
+  describe 'output is correct' do 
+    it 'for BSA default' do 
+      @file_out = @decoy.new.generate(TEST_FASTAS.first)
+      lines = File.open(@file_out, 'r').readlines
+      lines.select{|a| a =~ BSA_REV_MATCH }.empty?.should == false
+      lines.select{|a| a =~ BSA_FWD_MATCH }.empty?.should == true
+    end
+    it 'for BSA shuffle' do 
+      @file_out = @decoy.new(:type => :randomize).generate(TEST_FASTAS.first)
+      lines = File.open(@file_out, 'r').readlines
+      lines.select{|a| a =~ BSA_FWD_MATCH }.empty?.should == true
+    end
+    it 'for prefix change' do 
+      prefix = "TEST_THIS_"
+      @file_out = @decoy.new(prefix: prefix).generate(TEST_FASTAS.first)
+      lines = File.open(@file_out, 'r').readlines
+      lines.select{|a| a =~ BSA_REV_MATCH }.empty?.should == false
+      lines.select{|a| a =~ BSA_FWD_MATCH }.empty?.should == true
+      lines.select{|a| a =~ Regexp.new(prefix) }.empty?.should == false
+    end
+  end
 end
+

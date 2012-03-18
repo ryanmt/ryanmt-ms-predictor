@@ -37,7 +37,7 @@ module Ryan
                 opts.on('--shuffle', "Shuffle the protein sequence instead of reversing it") do 
                   options[:type] = :randomize
                 end
-                opts.on('--prefix String',String, "Change the accession modifying prefix ('DECOY_') to given string") do |str|
+                opts.on('--prefix STRING',String, "Change the accession modifying prefix ('DECOY_') to given string") do |str|
                   options[:prefix] = str
                 end
                 opts.on('-c', '--concatenate', "Generates a concatenated decoy+real database instead of a separate, decoy only database.") do |c|
@@ -45,14 +45,14 @@ module Ryan
                 end
                 opts.on_tail('-h', '--help', 'Show this message') do 
                   puts opts
-                  exit
+                  return
                 end
               end
               parser.parse!(argv)
-              if ARGV.size == 0
+              if argv.size == 0
                 puts parser.banner
                 puts parser.summarize
-                exit
+                return
               end
 
               outf = Ryan::MS::Search::Decoy.new(options).generate(argv.first)
